@@ -47,7 +47,7 @@ class Rover
     end
   end
 
-  def deploy(plateau)
+  def deploy!(plateau)
     if plateau.contains?(@x_coord, @y_coord)
       @plateau = plateau
     else

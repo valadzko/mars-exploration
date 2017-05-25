@@ -39,14 +39,14 @@ RSpec.describe Rover do
       it "should assing plateau to rover" do
         rover = Rover.new(5, 4, 'N')
         plateau = Plateau.new(5, 5)
-        rover.deploy(plateau)
+        rover.deploy!(plateau)
         expect(rover.plateau).to eq plateau
       end
 
       it "should be marked as landed" do
         rover = Rover.new(5, 4, 'N')
         plateau = Plateau.new(5, 5)
-        rover.deploy(plateau)
+        rover.deploy!(plateau)
         expect(rover.landed?).to eq true
       end
     end
@@ -59,14 +59,14 @@ RSpec.describe Rover do
         error = "Rover (#{rover.x_coord},#{rover.y_coord}) did not land on plateau #{plateau.x_size}x#{plateau.y_size}"
         expect(STDOUT).to receive(:puts).with(error)
 
-        rover.deploy(plateau)
+        rover.deploy!(plateau)
         expect(rover.landed?).to eq false
       end
 
       it "should not be deployed" do
         rover = Rover.new(7, 4, 'N')
         plateau = Plateau.new(5, 5)
-        rover.deploy(plateau)
+        rover.deploy!(plateau)
         expect(rover.landed?).to eq false
       end
     end
