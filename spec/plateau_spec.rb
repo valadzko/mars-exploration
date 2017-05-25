@@ -2,11 +2,18 @@ require "spec_helper"
 require "./plateau.rb"
 
 RSpec.describe Plateau do
+  before(:all) { @plateau = Plateau.new(5, 4) }
 
   it "should assign x,y and direction when create a new plateau" do
-    rover = Plateau.new(5, 4)
+    expect(@plateau.x_size).to eq 5
+    expect(@plateau.y_size).to eq 4
+  end
 
-    expect(rover.x_size).to eq 5
-    expect(rover.y_size).to eq 4
+  it "contains point inside the plateau" do
+    expect(@plateau.contains?(2,2)).to eq true
+  end
+
+  it "does not contain the point outside" do
+    expect(@plateau.contains?(5,5)).to eq false
   end
 end

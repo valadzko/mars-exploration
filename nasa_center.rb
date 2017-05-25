@@ -8,11 +8,12 @@ class NasaCenter
 
     # initialize Plato, Rovers
     # deploy rovers on the Plato
-    # explore the plato!
+    # sequentially explore the plato with routes for rovers
     @plateau = Plateau.new(5,5)
     @rover = Rover.new(1,3,'N')
 
     @rover.deploy(@plateau)
+    @rover.explore!("LMLMLMLMM")
     true
   end
 end
