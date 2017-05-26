@@ -2,6 +2,7 @@ require_relative 'direction'
 
 class Rover
   attr_accessor :x_coord, :y_coord, :direction_code, :plateau
+  include Direction
 
   def initialize(x, y, direction_code)
     @x_coord = x
@@ -30,15 +31,15 @@ class Rover
   end
 
   def turn_right
-    self.direction_code = Direction.code_when_turning_right direction_code
+    self.direction_code = code_when_turning_right direction_code
   end
 
   def turn_left
-    self.direction_code = Direction.code_when_turning_left direction_code
+    self.direction_code = code_when_turning_left direction_code
   end
 
   def move_ahead
-    new_x, new_y = Direction.coordinates_in_direction(x_coord, y_coord, direction_code)
+    new_x, new_y = coordinates_in_direction(x_coord, y_coord, direction_code)
     if plateau.contains?(new_x, new_y)
       self.x_coord, self.y_coord = new_x, new_y
     else
