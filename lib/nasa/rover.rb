@@ -1,4 +1,4 @@
-require './direction.rb'
+require_relative 'direction'
 
 class Rover
   attr_accessor :x_coord, :y_coord, :direction_code

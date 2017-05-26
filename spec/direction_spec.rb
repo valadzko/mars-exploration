@@ -1,5 +1,5 @@
 require "spec_helper"
-require "./direction.rb"
+require "nasa/direction"
 
 RSpec.describe Direction do
   describe "should return special direction code when " do

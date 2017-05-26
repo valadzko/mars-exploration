@@ -1,5 +1,5 @@
 require "spec_helper"
-require "./plateau.rb"
+require "nasa/plateau"
 
 RSpec.describe Plateau do
   before(:all) { @plateau = Plateau.new(5, 4) }

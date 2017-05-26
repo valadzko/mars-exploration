@@ -1,6 +1,6 @@
 require "spec_helper"
-require "./rover.rb"
-require "./plateau.rb"
+require "nasa/rover"
+require "nasa/plateau"
 
 RSpec.describe Rover do
   it "should assign x,y and direction when create a new rover" do

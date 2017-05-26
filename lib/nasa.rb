@@ -1,10 +1,10 @@
-require "./plateau.rb"
-require "./rover.rb"
-require "./input_helper.rb"
+require_relative "nasa/input_helper"
+require_relative "nasa/plateau"
+require_relative "nasa/rover"
 
-class NasaCenter
+class Nasa
 
-  def self.run_nasa_programm!
+  def self.explore_mars!
     input = InputHelper.new
 
     @plateau = Plateau.new(input.plateau_x, input.plateau_y)
@@ -27,4 +27,4 @@ class NasaCenter
   end
 end
 
-NasaCenter.run_nasa_programm!
+Nasa.explore_mars!
