@@ -1,6 +1,6 @@
 class InputHelper
 
-  attr_reader :rovers, :plateau_x, :plateau_y
+  attr_accessor :rovers, :plateau_x, :plateau_y
 
   def initialize
     input_plateau
@@ -9,11 +9,11 @@ class InputHelper
     @rovers = []
 
     until enough_rovers do
-      @rover = {}
-      input_coordinates_and_direction(@rover)
-      input_route(@rover)
+      rover = {}
+      input_coordinates_and_direction(rover)
+      input_route(rover)
 
-      @rovers << @rover
+      self.rovers << rover
 
       begin
         puts "Would you like to add one more rover? (y/n)(Press Enter to default: n)"
@@ -35,14 +35,14 @@ class InputHelper
       puts "Please input upper-right coordinates of the plateau, two integer numbers divided by space (Press Enter for default:5 5)"
       input = gets.chomp
       if input.empty?
-        @plateau_x, @plateau_y = [5, 5]
+        self.plateau_x, self.plateau_y = [5, 5]
         valid_input = true
       elsif input =~ /^\s*[\d]+\s+[\d]+\s*$/
-        @plateau_x, @plateau_y = input.split().map { |e| e.to_i  }
+        self.plateau_x, self.plateau_y = input.split().map { |e| e.to_i  }
         valid_input = true
       end
     end until valid_input
-    puts "Plateau dimension: #{@plateau_x}x#{@plateau_y}"
+    puts "Plateau dimension: #{plateau_x}x#{plateau_y}"
   end
 
   def input_coordinates_and_direction(rover)
@@ -76,6 +76,6 @@ class InputHelper
         valid_input = true
       end
     end until valid_input
-    puts "Route is: #{@rover[:route]}"
+    puts "Route is: #{rover[:route]}"
   end
 end

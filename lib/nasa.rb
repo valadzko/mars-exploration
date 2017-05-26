@@ -7,7 +7,7 @@ class Nasa
   def self.explore_mars!
     input = InputHelper.new
 
-    @plateau = Plateau.new(input.plateau_x, input.plateau_y)
+    plateau = Plateau.new(input.plateau_x, input.plateau_y)
 
     created_rovers = []
     planned_routes = []
@@ -18,7 +18,7 @@ class Nasa
     end
 
     created_rovers.each do |rover|
-      rover.deploy!(@plateau)
+      rover.deploy!(plateau)
     end
 
     created_rovers.zip(planned_routes).each do |rover, route|
