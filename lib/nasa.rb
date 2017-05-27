@@ -2,10 +2,10 @@ require_relative "nasa/input_helper"
 require_relative "nasa/plateau"
 require_relative "nasa/rover"
 
-class Nasa
-
+module Nasa
   def self.explore_mars!
-    input = InputHelper.new
+    default_filepath = File.join(File.dirname(__FILE__), '../tests/expedition_1')
+    input = InputHelper.new(ARGV[0] || default_filepath)
 
     plateau = Plateau.new(input.plateau_x, input.plateau_y)
 
@@ -13,7 +13,7 @@ class Nasa
     planned_routes = []
 
     input.rovers.each do |rover|
-      created_rovers << Rover.new(rover[:x], rover[:y], rover[:direction_code])
+      created_rovers << Rover.new(rover[:x_coord], rover[:y_coord], rover[:direction_code])
       planned_routes << rover[:route]
     end
 

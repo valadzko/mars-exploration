@@ -1,81 +1,60 @@
-class InputHelper
+module Nasa
+  class InputHelper
 
-  attr_accessor :rovers, :plateau_x, :plateau_y
+    attr_accessor :rovers, :plateau_x, :plateau_y
 
-  def initialize
-    input_plateau
-
-    enough_rovers = false
-    @rovers = []
-
-    until enough_rovers do
-      rover = {}
-      input_coordinates_and_direction(rover)
-      input_route(rover)
-
-      self.rovers << rover
-
-      begin
-        puts "Would you like to add one more rover? (y/n)(Press Enter to default: n)"
-        input = gets.chomp
-        if input.empty? || input =~ /^\s*[n]\s*$/
-          valid_input = true
-          enough_rovers = true
-        elsif input =~ /^\s*[y]\s*$/
-          valid_input = true
-        end
-      end until valid_input
+    def initialize(filepath)
+      @rovers = []
+      read_input_file filepath
     end
-  end
 
-  private
+    private
 
-  def input_plateau
-    begin
-      puts "Please input upper-right coordinates of the plateau, two integer numbers divided by space (Press Enter for default:5 5)"
-      input = gets.chomp
-      if input.empty?
-        self.plateau_x, self.plateau_y = [5, 5]
-        valid_input = true
-      elsif input =~ /^\s*[\d]+\s+[\d]+\s*$/
-        self.plateau_x, self.plateau_y = input.split().map { |e| e.to_i  }
-        valid_input = true
+    def read_input_file(filepath)
+      validate_file(filepath)
+      File.open(filepath, "r") do |file|
+        lines = file.each_line
+
+        read_plateau(lines.first)
+        read_rovers(lines)
       end
-    end until valid_input
-    puts "Plateau dimension: #{plateau_x}x#{plateau_y}"
-  end
+    end
 
-  def input_coordinates_and_direction(rover)
-    valid_input = false
-    begin
-      puts "Please input rover coordinates and direction code(N,W,E,S)(Press Enter for default:1 2 N)"
-      input = gets.chomp
-      if input.empty?
-        rover[:x], rover[:y], rover[:direction_code] = 1, 2, 'N'
-        valid_input = true
-      elsif input =~ /^\s*[\d]+\s+[\d]+\s+[NWSE]\s*$/
-        rover[:x], rover[:y], rover[:direction_code] = input.split()
-        rover[:x] = rover[:x].to_i
-        rover[:y] = rover[:y].to_i
-        valid_input = true
-      end
-    end until valid_input
-    puts "Rover coordinates and direction code: #{rover[:x]}, #{rover[:y]}, #{rover[:direction_code]}"
-  end
+    def validate_file(path)
+      raise 'File with expedition plan not found' unless File.file?(path)
+    end
 
-  def input_route(rover)
-    valid_input = false
-    begin
-      puts "Please input route for rover, use any combination of M, L, R (Press Enter for default:LMLMLMLMM )"
-      input = gets.chomp
-      if input.empty?
-        rover[:route] = 'LMLMLMLMM'
-        valid_input = true
-      elsif input =~ /^\s*[LMR]+\s*$/
-        rover[:route] = input.strip
-        valid_input = true
+    def read_plateau(line)
+      raise "Error reading plateau:#{line}" unless line.chomp! =~ /[0-9]+\s+[0-9]+\s*/
+
+      self.plateau_x, self.plateau_y = line.split().map { |e| e.to_i  }
+
+      if plateau_x == 0 || plateau_y == 0
+        raise "Plateau #{plateau_x}x#{plateau_y} must be at least 1x1"
       end
-    end until valid_input
-    puts "Route is: #{rover[:route]}"
+    end
+
+    def read_rovers(lines)
+      lines.each_slice(2) do |rover_info|
+        rover = read_coords_and_direction rover_info[0]
+        rover[:route] = read_route rover_info[1]
+        self.rovers << rover
+      end
+    end
+
+    def read_coords_and_direction(line)
+      unless line.chomp! =~ /[0-9]+\s+[0-9]+\s+[NWSE]\s*/
+        raise "Error reading rover coordinates and direction:#{line}"
+      end
+
+      x, y, direction = line.split
+      { x_coord: x.to_i, y_coord: y.to_i, direction_code: direction }
+    end
+
+    def read_route(line)
+      raise "Error reading rover route:#{line}" unless line.chomp! =~ /[LMR]+\s*/
+
+      line.strip
+    end
   end
 end

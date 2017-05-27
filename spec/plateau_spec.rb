@@ -1,8 +1,8 @@
 require "spec_helper"
 require "nasa/plateau"
 
-RSpec.describe Plateau do
-  before(:all) { @plateau = Plateau.new(5, 4) }
+RSpec.describe Nasa::Plateau do
+  before(:all) { @plateau = Nasa::Plateau.new(5, 4) }
 
   it "should assign x,y and direction when create a new plateau" do
     expect(@plateau.x_size).to eq 5

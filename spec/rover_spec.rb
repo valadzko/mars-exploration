@@ -2,9 +2,9 @@ require "spec_helper"
 require "nasa/rover"
 require "nasa/plateau"
 
-RSpec.describe Rover do
+RSpec.describe Nasa::Rover do
   it "should assign x,y and direction when create a new rover" do
-    rover = Rover.new(5, 4, 'N')
+    rover = Nasa::Rover.new(5, 4, 'N')
 
     expect(rover.x_coord).to eq 5
     expect(rover.y_coord).to eq 4
@@ -13,7 +13,7 @@ RSpec.describe Rover do
 
   describe "explore route" do
     before do
-      @rover = Rover.new(5, 4, 'N')
+      @rover = Nasa::Rover.new(5, 4, 'N')
       allow(@rover).to receive_messages(move_ahead: nil, turn_left: nil, turn_right: nil)
     end
 
@@ -37,15 +37,15 @@ RSpec.describe Rover do
 
     context "successfully deployed" do
       it "should assing plateau to rover" do
-        rover = Rover.new(5, 4, 'N')
-        plateau = Plateau.new(5, 5)
+        rover = Nasa::Rover.new(5, 4, 'N')
+        plateau = Nasa::Plateau.new(5, 5)
         rover.deploy!(plateau)
         expect(rover.plateau).to eq plateau
       end
 
       it "should be marked as landed" do
-        rover = Rover.new(5, 4, 'N')
-        plateau = Plateau.new(5, 5)
+        rover = Nasa::Rover.new(5, 4, 'N')
+        plateau = Nasa::Plateau.new(5, 5)
         rover.deploy!(plateau)
         expect(rover.landed?).to eq true
       end
@@ -53,8 +53,8 @@ RSpec.describe Rover do
 
     context "failed to deploy" do
       it "print message about deployment failure" do
-        rover = Rover.new(7, 4, 'N')
-        plateau = Plateau.new(5, 5)
+        rover = Nasa::Rover.new(7, 4, 'N')
+        plateau = Nasa::Plateau.new(5, 5)
 
         error = "Rover (#{rover.x_coord},#{rover.y_coord}) did not land on plateau #{plateau.x_size}x#{plateau.y_size}"
         expect(STDOUT).to receive(:puts).with(error)
@@ -64,8 +64,8 @@ RSpec.describe Rover do
       end
 
       it "should not be deployed" do
-        rover = Rover.new(7, 4, 'N')
-        plateau = Plateau.new(5, 5)
+        rover = Nasa::Rover.new(7, 4, 'N')
+        plateau = Nasa::Plateau.new(5, 5)
         rover.deploy!(plateau)
         expect(rover.landed?).to eq false
       end

@@ -1,8 +1,8 @@
 require "spec_helper"
 require "nasa/direction"
 
-RSpec.describe Direction do
-  include Direction
+RSpec.describe Nasa::Direction do
+  include Nasa::Direction
 
   describe "should return special direction code when " do
     it "turning right" do
